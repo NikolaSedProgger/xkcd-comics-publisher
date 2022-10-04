@@ -6,7 +6,7 @@ from random import randint
 from requests import get, post
 
 
-def get_comics(image_id):
+def get_comic(image_id):
     url = f'https://xkcd.com/{image_id}/info.0.json'
     response = get(url)
     response.raise_for_status()
@@ -32,7 +32,7 @@ def get_upload_url(image_title):
     return response.json()['response']['upload_url']
 
 
-def upload_comics_server(image_title, url):
+def upload_comic_server(image_title, url):
     with open(f'images/{image_title}.png', 'rb') as file:
         files = {
             'photo': file,
@@ -43,7 +43,7 @@ def upload_comics_server(image_title, url):
 
 
 def save_wall_photo(image_title, url):
-    uploaded_comics = upload_comics_server(image_title, url)
+    uploaded_comics = upload_comic_server(image_title, url)
     url = 'https://api.vk.com/method/photos.saveWallPhoto'
     params = {
         'access_token': os.environ['ACCESS_TOKEN'],
@@ -57,7 +57,7 @@ def save_wall_photo(image_title, url):
     return response.json()['response'][0]
 
 
-def post_comics(message, photo_id, group_id):
+def post_comic(message, photo_id, group_id):
     url = 'https://api.vk.com/method/wall.post'
     params = {
         'access_token': os.environ['ACCESS_TOKEN'],
@@ -79,9 +79,9 @@ if __name__ == '__main__':
     last_comics_id = get('https://xkcd.com/info.0.json').json()['num']
     image_id = randint(first_comics_id, last_comics_id)
     
-    comics = get_comics(image_id)
+    comics = get_comic(image_id)
     image_title = comics['title']
     upload_url = get_upload_url(image_title)
     photo_id = save_wall_photo(image_title, upload_url)
 
-    post_comics(comics['alt'], photo_id, os.getenv('GROUP_ID'))
+    post_comic(comics['alt'], photo_id, os.getenv('GROUP_ID'))
