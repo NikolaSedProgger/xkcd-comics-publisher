@@ -61,8 +61,8 @@ def post_comic(message, photo_id, group_id):
     url = 'https://api.vk.com/method/wall.post'
     params = {
         'access_token': os.environ['ACCESS_TOKEN'],
-        'group_id': int(group_id),
-        'owner_id': -int(group_id),
+        'group_id': group_id,
+        'owner_id': f'-{group_id}',
         'from_group': 1,
         'attachment': f"photo519047993_{photo_id['id']}",
         'message': message,
