@@ -35,11 +35,12 @@ ACCESS_TOKEN=ВашAccessToken
 API_VERSION=5.131
 ```
 
-Так-же нам нужно получить [group id своей группы](https://regvk.com/id/)
+Так-же нам нужно получить [group id своей группы и свой id](https://regvk.com/id/)
 Далее вносим его в файл .env в строке с ACCESS_TOKEN
 ```
 CLIENT_ID=ВашClientId
 GROUP_ID=ВашGroupId
+OWNER_ID=ВашOwnerId
 ACCESS_TOKEN=ВашAccessToken
 API_VERSION=5.131
 ```

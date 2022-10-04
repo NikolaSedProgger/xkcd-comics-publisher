@@ -57,14 +57,14 @@ def save_wall_photo(image_title, url):
     return response.json()['response'][0]
 
 
-def post_comic(message, photo_id, group_id):
+def post_comic(message, photo_id, group_id, owner_id):
     url = 'https://api.vk.com/method/wall.post'
     params = {
         'access_token': os.environ['ACCESS_TOKEN'],
         'group_id': group_id,
         'owner_id': f'-{group_id}',
         'from_group': 1,
-        'attachment': f"photo519047993_{photo_id['id']}",
+        'attachment': f"photo{owner_id}_{photo_id['id']}",
         'message': message,
         'v': os.environ['API_VERSION']
     }
@@ -84,4 +84,4 @@ if __name__ == '__main__':
     upload_url = get_upload_url(image_title)
     photo_id = save_wall_photo(image_title, upload_url)
 
-    post_comic(comics['alt'], photo_id, os.getenv('GROUP_ID'))
+    post_comic(comics['alt'], photo_id, os.getenv('GROUP_ID'), os.getenv('OWNER_ID'))
