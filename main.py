@@ -14,14 +14,14 @@ def get_comic(image_id):
     filename = response.json()['title']
     image = get(response.json()['img']).content
 
-    with open(f'images/{filename}.png', 'wb') as file:
+    with open(f'{os.path.join("images/", filename)}.png', 'wb') as file:
         file.write(image)
 
     return response.json()
 
 
 def get_upload_url(image_title):
-    with open(f'images/{image_title}.png', 'rb') as file:
+    with open(f'{os.path.join("images/", image_title)}.png', 'rb') as file:
         url = 'https://api.vk.com/method/photos.getWallUploadServer'
         params = {
             'access_token': os.getenv('ACCESS_TOKEN'),
@@ -33,7 +33,7 @@ def get_upload_url(image_title):
 
 
 def upload_comic_server(image_title, url):
-    with open(f'images/{image_title}.png', 'rb') as file:
+    with open(f'{os.path.join("images/", image_title)}.png', 'rb') as file:
         files = {
             'photo': file,
         }
