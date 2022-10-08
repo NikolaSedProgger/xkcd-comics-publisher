@@ -14,9 +14,9 @@ First, create a [standalone app](https://vk.com/editapp?act=create) for your com
 Next, enter it in the .env file in the line with CLIENT_ID
 
 ```
-CLIENT_ID=YourClientId
-GROUP_ID=
-ACCESS_TOKEN=
+VK_CLIENT_ID=YourClientId
+VK_GROUP_ID=
+VK_ACCESS_TOKEN=
 API_VERSION=5.131
 ```
 
@@ -29,19 +29,19 @@ We follow the received link and get the access_token from the link to the page w
 
 Next, we add it to the .env file in the line with ACCESS_TOKEN
 ```
-CLIENT_ID=YourClientId
-GROUP_ID=
-ACCESS_TOKEN=YourAccessToken
+VK_CLIENT_ID=YourClientId
+VK_GROUP_ID=
+VK_ACCESS_TOKEN=YourAccessToken
 API_VERSION=5.131
 ```
 
 We also need to get the [group id of our group and yourself](https://regvk.com/id/)
 Next, we add it to the .env file in the line with ACCESS_TOKEN
 ```
-CLIENT_ID=YourClientId
-GROUP_ID=YourGroupId
-OWNER_ID=YourOwnerId
-ACCESS_TOKEN=YourAccessToken
+VK_CLIENT_ID=YourClientId
+VK_GROUP_ID=YourGroupId
+VK_OWNER_ID=YourOwnerId
+VK_ACCESS_TOKEN=YourAccessToken
 API_VERSION=5.131
 ```
 

@@ -24,7 +24,7 @@ def get_upload_url(image_title):
     with open(f'{os.path.join("images/", image_title)}.png', 'rb') as file:
         url = 'https://api.vk.com/method/photos.getWallUploadServer'
         params = {
-            'access_token': os.getenv('ACCESS_TOKEN'),
+            'access_token': os.getenv('VK_ACCESS_TOKEN'),
             'v': os.getenv('API_VERSION')
         }
     response = post(url, params)
@@ -46,7 +46,7 @@ def save_wall_photo(image_title, url):
     uploaded_comics = upload_comic_server(image_title, url)
     url = 'https://api.vk.com/method/photos.saveWallPhoto'
     params = {
-        'access_token': os.environ['ACCESS_TOKEN'],
+        'access_token': os.environ['VK_ACCESS_TOKEN'],
         'photo': uploaded_comics['photo'],
         'server': uploaded_comics['server'],
         'hash': uploaded_comics['hash'],
@@ -60,7 +60,7 @@ def save_wall_photo(image_title, url):
 def post_comic(message, photo_id, group_id, owner_id):
     url = 'https://api.vk.com/method/wall.post'
     params = {
-        'access_token': os.environ['ACCESS_TOKEN'],
+        'access_token': os.environ['VK_ACCESS_TOKEN'],
         'group_id': group_id,
         'owner_id': f'-{group_id}',
         'from_group': 1,
@@ -76,12 +76,19 @@ if __name__ == '__main__':
     load_dotenv()
     os.makedirs('images', exist_ok=True)
     first_comics_id = 1
-    last_comics_id = get('https://xkcd.com/info.0.json').json()['num']
-    image_id = randint(first_comics_id, last_comics_id)
+    response = get('https://xkcd.com/info.0.json')
+    response.raise_for_status()
+    try:
+        last_comics_id = response.json()['num']
+        image_id = randint(first_comics_id, last_comics_id)
+    except KeyError:
+        last_comics_id = 2682
+        image_id = randint(first_comics_id, last_comics_id)
+
     
     comics = get_comic(image_id)
     image_title = comics['title']
     upload_url = get_upload_url(image_title)
     photo_id = save_wall_photo(image_title, upload_url)
 
-    post_comic(comics['alt'], photo_id, os.getenv('GROUP_ID'), os.getenv('OWNER_ID'))
+    post_comic(comics['alt'], photo_id, os.getenv('VK_GROUP_ID'), os.getenv('VK_OWNER_ID'))

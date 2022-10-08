@@ -14,9 +14,9 @@ pip install -r requirements.txt
 Далее вводим его в файл .env в строке с CLIENT_ID
 
 ```
-CLIENT_ID=ВашClientId
-GROUP_ID=
-ACCESS_TOKEN=
+VK_CLIENT_ID=ВашClientId
+VK_GROUP_ID=
+VK_ACCESS_TOKEN=
 API_VERSION=5.131
 ```
 
@@ -29,19 +29,19 @@ python get_access_token.py
 
 Далее вносим его в файл .env в строке с ACCESS_TOKEN
 ```
-CLIENT_ID=ВашClientId
-GROUP_ID=
-ACCESS_TOKEN=ВашAccessToken
+VK_CLIENT_ID=ВашClientId
+VK_GROUP_ID=
+VK_ACCESS_TOKEN=ВашAccessToken
 API_VERSION=5.131
 ```
 
 Так-же нам нужно получить [group id своей группы и свой id](https://regvk.com/id/)
 Далее вносим его в файл .env в строке с ACCESS_TOKEN
 ```
-CLIENT_ID=ВашClientId
-GROUP_ID=ВашGroupId
-OWNER_ID=ВашOwnerId
-ACCESS_TOKEN=ВашAccessToken
+VK_CLIENT_ID=ВашClientId
+VK_GROUP_ID=ВашGroupId
+VK_OWNER_ID=ВашOwnerId
+VK_ACCESS_TOKEN=ВашAccessToken
 API_VERSION=5.131
 ```
 
