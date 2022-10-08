@@ -86,8 +86,7 @@ if __name__ == '__main__':
 
     
     comics = get_comic(image_id)
-    image_title = comics['title']
-    upload_url = get_upload_url(image_title)
-    photo_id = save_wall_photo(image_title, upload_url)
+    upload_url = get_upload_url(comics['title'])
+    photo_id = save_wall_photo(comics['title'], upload_url)
 
     post_comic(comics['alt'], photo_id, os.getenv('VK_GROUP_ID'), os.getenv('VK_OWNER_ID'))
