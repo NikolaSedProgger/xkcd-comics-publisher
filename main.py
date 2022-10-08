@@ -8,16 +8,15 @@ from requests import get, post
 
 def get_comic(image_id):
     url = f'https://xkcd.com/{image_id}/info.0.json'
-    response = get(url)
-    response.raise_for_status()
+    response = get(url).json()
 
-    filename = response.json()['title']
-    image = get(response.json()['img']).content
+    filename = response['title']
+    image = get(response['img']).content
 
     with open(f'{os.path.join("images/", filename)}.png', 'wb') as file:
         file.write(image)
 
-    return response.json()
+    return response
 
 
 def get_upload_url(image_title):
