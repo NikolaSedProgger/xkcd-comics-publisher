@@ -42,14 +42,14 @@ def upload_comic_server(image_title, url):
     return response['photo'], response['server'], response['hash']
 
 
-def save_wall_photo(image_title, url):
-    uploaded_comics = upload_comic_server(image_title, url)
+def save_wall_photo(photo, server, hash):
+    
     url = 'https://api.vk.com/method/photos.saveWallPhoto'
     params = {
         'access_token': access_token,
-        'photo': uploaded_comics['photo'],
-        'server': uploaded_comics['server'],
-        'hash': uploaded_comics['hash'],
+        'photo': photo,
+        'server': server,
+        'hash': hash,
         'v': api_version
     }
     response = post(url, params=params)
@@ -94,6 +94,7 @@ if __name__ == '__main__':
     
     comics = get_comic(image_id)
     upload_url = get_upload_url(comics['title'])
-    photo_id = save_wall_photo(comics['title'], upload_url)
+    uploaded_comics = upload_comic_server(comics['title'], upload_url)
+    photo_id = save_wall_photo(uploaded_comics['photo'], uploaded_comics['server'], uploaded_comics['hash'])
 
     post_comic(comics['alt'], photo_id, group_id, owner_id)
