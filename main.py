@@ -1,3 +1,4 @@
+from doctest import ELLIPSIS
 import os
 from sys import api_version
 from tokenize import group
@@ -83,14 +84,11 @@ if __name__ == '__main__':
 
     first_comics_id = 1
     response = get('https://xkcd.com/info.0.json')
-    response.raise_for_status()
-    try:
+    if response.status_code == 200:
         last_comics_id = response.json()['num']
-        image_id = randint(first_comics_id, last_comics_id)
-    except KeyError:
+    else:
         last_comics_id = 2682
-        image_id = randint(first_comics_id, last_comics_id)
-
+    image_id = randint(first_comics_id, last_comics_id)
     
     comics = get_comic(image_id)
     upload_url = get_upload_url(comics['title'])
