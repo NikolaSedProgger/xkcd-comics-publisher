@@ -16,7 +16,7 @@ def get_comic(image_id):
     image = get(response.json()['img'])
     image.raise_for_status()
 
-    with open(f'{os.path.join("images/", filename)}.png', 'wb') as file:
+    with open(f'{os.path.join("images", filename)}.png', 'wb') as file:
         file.write(image.content)
 
     return response
@@ -34,7 +34,7 @@ def get_upload_url(image_title):
 
 
 def upload_comic_server(image_title, url):
-    with open(f'{os.path.join("images/", image_title)}.png', 'rb') as file:
+    with open(f'{os.path.join("images", image_title)}.png', 'rb') as file:
         files = {
             'photo': file,
         }
