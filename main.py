@@ -43,14 +43,14 @@ def upload_comic_server(image_title, url):
     return response.json()['photo'], response.json()['server'], response.json()['hash']
 
 
-def save_wall_photo(photo, server, hash):
+def save_wall_photo(photo, server, photo_hash):
     
     url = 'https://api.vk.com/method/photos.saveWallPhoto'
     params = {
         'access_token': access_token,
         'photo': photo,
         'server': server,
-        'hash': hash,
+        'hash': photo_hash,
         'v': api_version
     }
     response = post(url, params=params)
