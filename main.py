@@ -90,9 +90,9 @@ if __name__ == '__main__':
         last_comics_id = 2682
     image_id = randint(first_comics_id, last_comics_id)
     
-    comics = get_comic(image_id)
-    upload_url = get_upload_url(comics['title'])
-    uploaded_comics = upload_comic_server(comics['title'], upload_url)
-    photo_id = save_wall_photo(uploaded_comics['photo'], uploaded_comics['server'], uploaded_comics['hash'])
+    comic = get_comic(image_id)
+    upload_url = get_upload_url(comic['title'])
+    uploaded_comic = upload_comic_server(comic['title'], upload_url)
+    photo_id = save_wall_photo(uploaded_comic['photo'], uploaded_comic['server'], uploaded_comic['hash'])
 
-    post_comic(comics['alt'], photo_id, group_id, owner_id)
+    post_comic(comic['alt'], photo_id, group_id, owner_id)
