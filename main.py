@@ -11,13 +11,15 @@ from requests import get, post
 
 def get_comic(image_id):
     url = f'https://xkcd.com/{image_id}/info.0.json'
-    response = get(url).json()
-
-    filename = response['title']
-    image = get(response['img']).content
+    response = get(url)
+    response.raise_for_status()
+    
+    filename = response.json()['title']
+    image = get(response.json()['img'])
+    image.raise_for_status()
 
     with open(f'{os.path.join("images/", filename)}.png', 'wb') as file:
-        file.write(image)
+        file.write(image.content)
 
     return response
 
@@ -39,8 +41,9 @@ def upload_comic_server(image_title, url):
         files = {
             'photo': file,
         }
-        response = post(url, files=files).json()
-    return response['photo'], response['server'], response['hash']
+        response = post(url, files=files)
+        response.raise_for_status()
+    return response.json()['photo'], response.json()['server'], response.json()['hash']
 
 
 def save_wall_photo(photo, server, hash):
