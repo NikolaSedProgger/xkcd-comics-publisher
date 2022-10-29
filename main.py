@@ -87,7 +87,7 @@ if __name__ == '__main__':
 
     first_comics_id = 1
     response = get('https://xkcd.com/info.0.json')
-    if response.status_code == 200:
+    if response.ok:
         last_comics_id = response.json()['num']
     else:
         last_comics_id = 2682
