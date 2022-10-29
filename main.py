@@ -1,7 +1,5 @@
-from doctest import ELLIPSIS
 import os
 from sys import api_version
-from tokenize import group
 
 from dotenv import load_dotenv
 from random import randint
@@ -25,12 +23,11 @@ def get_comic(image_id):
 
 
 def get_upload_url(image_title):
-    with open(f'{os.path.join("images/", image_title)}.png', 'rb') as file:
-        url = 'https://api.vk.com/method/photos.getWallUploadServer'
-        params = {
-            'access_token': access_token,
-            'v': api_version
-        }
+    url = 'https://api.vk.com/method/photos.getWallUploadServer'
+    params = {
+        'access_token': access_token,
+        'v': api_version
+    }
     response = post(url, params)
     response.raise_for_status()
     return response.json()['response']['upload_url']
