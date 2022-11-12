@@ -65,7 +65,7 @@ def post_comic(access_token, api_version, message, photo_id, group_id, owner_id)
         'group_id': group_id,
         'owner_id': f'-{group_id}',
         'from_group': 1,
-        'attachment': f"photo{owner_id}_{photo_id['id']}",
+        'attachment': f"photo{owner_id}_{photo_id}",
         'message': message,
         'v': api_version
     }
@@ -94,5 +94,5 @@ if __name__ == '__main__':
     uploaded_comic = upload_comic_server(comic['title'], get_upload_url(access_token, api_version))
     photo_id = save_wall_photo(access_token, api_version, uploaded_comic['photo'], uploaded_comic['server'], uploaded_comic['hash'])
 
-    post_comic(access_token, api_version, comic['alt'], photo_id, group_id, owner_id)
+    post_comic(access_token, api_version, comic['alt'], photo_id['id'], group_id, owner_id)
     os.remove('images')
