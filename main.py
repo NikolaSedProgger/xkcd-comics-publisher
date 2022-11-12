@@ -19,10 +19,10 @@ def get_comic(image_id):
     with open(f'{os.path.join("images", filename)}.png', 'wb') as file:
         file.write(image.content)
 
-    return response
+    return response.json()
 
 
-def get_upload_url(image_title):
+def get_upload_url(access_token, api_version):
     url = 'https://api.vk.com/method/photos.getWallUploadServer'
     params = {
         'access_token': access_token,
@@ -43,7 +43,7 @@ def upload_comic_server(image_title, url):
     return response.json()['photo'], response.json()['server'], response.json()['hash']
 
 
-def save_wall_photo(photo, server, photo_hash):
+def save_wall_photo(access_token, api_version, photo, server, photo_hash):
     
     url = 'https://api.vk.com/method/photos.saveWallPhoto'
     params = {
@@ -58,7 +58,7 @@ def save_wall_photo(photo, server, photo_hash):
     return response.json()['response'][0]
 
 
-def post_comic(message, photo_id, group_id, owner_id):
+def post_comic(access_token, api_version, message, photo_id, group_id, owner_id):
     url = 'https://api.vk.com/method/wall.post'
     params = {
         'access_token': access_token,
@@ -91,8 +91,8 @@ if __name__ == '__main__':
     image_id = randint(first_comics_id, last_comics_id)
     
     comic = get_comic(image_id)
-    upload_url = get_upload_url(comic['title'])
-    uploaded_comic = upload_comic_server(comic['title'], upload_url)
-    photo_id = save_wall_photo(uploaded_comic['photo'], uploaded_comic['server'], uploaded_comic['hash'])
+    uploaded_comic = upload_comic_server(comic['title'], get_upload_url(access_token, api_version))
+    photo_id = save_wall_photo(access_token, api_version, uploaded_comic['photo'], uploaded_comic['server'], uploaded_comic['hash'])
 
-    post_comic(comic['alt'], photo_id, group_id, owner_id)
+    post_comic(access_token, api_version, comic['alt'], photo_id, group_id, owner_id)
+    os.remove('images')
