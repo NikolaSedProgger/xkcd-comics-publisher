@@ -7,7 +7,7 @@ def get_access_token(client_id):
     url = 'https://oauth.vk.com/authorize'
     params = {
         'client_id': client_id,
-        'redirect_uri': 'https://oauth.vk.com/blank.html',
+        'scope':'photos,groups,wall',
         'response_type': 'token'
     }
     response = get(url, params)
@@ -16,6 +16,5 @@ def get_access_token(client_id):
 
 if __name__ == '__main__':
     load_dotenv()
-    client_id = os.getenv('CLIENT_ID')
-    
+    client_id = os.getenv('VK_CLIENT_ID')
     print(get_access_token(client_id))
