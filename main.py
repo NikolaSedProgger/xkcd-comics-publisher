@@ -3,6 +3,7 @@ from sys import api_version
 
 from dotenv import load_dotenv
 from random import randint
+import shutil
 
 from requests import get, post
 
@@ -22,13 +23,14 @@ def get_comic(image_id):
     return response.json()
 
 
-def get_upload_url(access_token, api_version):
+def get_upload_url(access_token, group_id, api_version):
     url = 'https://api.vk.com/method/photos.getWallUploadServer'
     params = {
         'access_token': access_token,
+        'group_id': group_id,
         'v': api_version
     }
-    response = post(url, params)
+    response = get(url, params)
     response.raise_for_status()
     return response.json()['response']['upload_url']
 
@@ -40,14 +42,14 @@ def upload_comic_server(image_title, url):
         }
         response = post(url, files=files)
         response.raise_for_status()
-    return response.json()['photo'], response.json()['server'], response.json()['hash']
+    return response.json()
 
 
-def save_wall_photo(access_token, api_version, photo, server, photo_hash):
-    
+def save_wall_photo(access_token, group_id, api_version, photo, server, photo_hash):
     url = 'https://api.vk.com/method/photos.saveWallPhoto'
     params = {
         'access_token': access_token,
+        'group_id': group_id,
         'photo': photo,
         'server': server,
         'hash': photo_hash,
@@ -81,7 +83,6 @@ if __name__ == '__main__':
     owner_id = os.getenv('VK_OWNER_ID')
     api_version = os.getenv('API_VERSION')
 
-
     first_comics_id = 1
     response = get('https://xkcd.com/info.0.json')
     if response.ok:
@@ -91,8 +92,8 @@ if __name__ == '__main__':
     image_id = randint(first_comics_id, last_comics_id)
     
     comic = get_comic(image_id)
-    uploaded_comic = upload_comic_server(comic['title'], get_upload_url(access_token, api_version))
-    photo_id = save_wall_photo(access_token, api_version, uploaded_comic['photo'], uploaded_comic['server'], uploaded_comic['hash'])
+    uploaded_comic = upload_comic_server(comic['title'], get_upload_url(access_token, group_id, api_version))
+    photo_id = save_wall_photo(access_token, group_id, api_version, uploaded_comic['photo'], uploaded_comic['server'], uploaded_comic['hash'])
 
     post_comic(access_token, api_version, comic['alt'], photo_id['id'], group_id, owner_id)
-    os.remove('images')
+    shutil.rmtree('images')
