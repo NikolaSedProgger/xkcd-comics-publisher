@@ -1,5 +1,4 @@
 import os
-from sys import api_version
 
 from dotenv import load_dotenv
 from random import randint
