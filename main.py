@@ -15,11 +15,11 @@ def get_comic(image_id):
     
     comic = response.json()
     filename = comic['title']
-    image = get(comic['img'])
-    image.raise_for_status()
+    image_url = get(comic['img'])
+    image_url.raise_for_status()
 
     with open(f'{os.path.join("images", filename)}.png', 'wb') as file:
-        file.write(image.content)
+        file.write(image_url.content)
 
     return comic
 
