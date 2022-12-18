@@ -13,14 +13,15 @@ def get_comic(image_id):
     response = get(url)
     response.raise_for_status()
     
-    filename = response.json()['title']
-    image = get(response.json()['img'])
+    comic = response.json()
+    filename = comic['title']
+    image = get(comic['img'])
     image.raise_for_status()
 
     with open(f'{os.path.join("images", filename)}.png', 'wb') as file:
         file.write(image.content)
 
-    return response.json()
+    return comic
 
 
 def get_upload_url(access_token, group_id, api_version):
