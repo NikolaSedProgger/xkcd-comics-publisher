@@ -1,4 +1,5 @@
 import os
+import sys
 
 from dotenv import load_dotenv
 from random import randint
@@ -82,6 +83,10 @@ if __name__ == '__main__':
     group_id = os.environ['VK_GROUP_ID']
     owner_id = os.environ['VK_OWNER_ID']
     vk_api_version = os.environ['VK_API_VERSION']
+    for key in os.environ:
+        if not os.environ[key]:
+            print('Вы не полностью заполнили .env')
+            sys.exit()
 
     first_comics_id = 1
     response = get('https://xkcd.com/info.0.json')
