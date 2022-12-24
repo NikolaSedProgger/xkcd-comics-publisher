@@ -78,10 +78,10 @@ def post_comic(access_token, api_version, message, photo_id, group_id, owner_id)
 if __name__ == '__main__':
     load_dotenv()
     os.makedirs('images', exist_ok=True)
-    access_token = os.getenv('VK_ACCESS_TOKEN')
-    group_id = os.getenv('VK_GROUP_ID')
-    owner_id = os.getenv('VK_OWNER_ID')
-    api_version = os.getenv('API_VERSION')
+    access_token = os.environ['VK_ACCESS_TOKEN']
+    group_id = os.environ['VK_GROUP_ID']
+    owner_id = os.environ['VK_OWNER_ID']
+    vk_api_version = os.environ['VK_API_VERSION']
 
     first_comics_id = 1
     response = get('https://xkcd.com/info.0.json')
@@ -92,8 +92,8 @@ if __name__ == '__main__':
     image_id = randint(first_comics_id, last_comics_id)
     
     comic = get_comic(image_id)
-    uploaded_comic = upload_comic_server(comic['title'], get_upload_url(access_token, group_id, api_version))
-    photo_id = save_wall_photo(access_token, group_id, api_version, uploaded_comic['photo'], uploaded_comic['server'], uploaded_comic['hash'])
+    uploaded_comic = upload_comic_server(comic['title'], get_upload_url(access_token, group_id, vk_api_version))
+    photo_id = save_wall_photo(access_token, group_id, vk_api_version, uploaded_comic['photo'], uploaded_comic['server'], uploaded_comic['hash'])
 
-    post_comic(access_token, api_version, comic['alt'], photo_id['id'], group_id, owner_id)
+    post_comic(access_token, vk_api_version, comic['alt'], photo_id['id'], group_id, owner_id)
     shutil.rmtree('images')
