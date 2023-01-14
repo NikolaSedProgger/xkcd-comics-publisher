@@ -96,9 +96,10 @@ if __name__ == '__main__':
         last_comics_id = 2682
     image_id = randint(first_comics_id, last_comics_id)
     
-    comic = get_comic(image_id)
-    uploaded_comic = upload_comic_server(comic['title'], get_upload_url(access_token, group_id, vk_api_version))
-    photo_id = save_wall_photo(access_token, group_id, vk_api_version, uploaded_comic['photo'], uploaded_comic['server'], uploaded_comic['hash'])
-
-    post_comic(access_token, vk_api_version, comic['alt'], photo_id['id'], group_id, owner_id)
-    shutil.rmtree('images')
+    try:
+        comic = get_comic(image_id)
+        uploaded_comic = upload_comic_server(comic['title'], get_upload_url(access_token, group_id, vk_api_version))
+        photo_id = save_wall_photo(access_token, group_id, vk_api_version, uploaded_comic['photo'], uploaded_comic['server'], uploaded_comic['hash'])
+        post_comic(access_token, vk_api_version, comic['alt'], photo_id['id'], group_id, owner_id)
+    finally:
+        shutil.rmtree('images')
