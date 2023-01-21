@@ -15,11 +15,12 @@ def get_comic(image_id):
 
     comic = response.json()
     filename = comic["title"]
-    image_url = get(comic["img"])
-    image_url.raise_for_status()
+    comic_image = get(comic["img"])
+    
+    comic_image.raise_for_status()
 
     with open(f'{os.path.join("images", filename)}.png', "wb") as file:
-        file.write(image_url.content)
+        file.write(comic_image.content)
     return comic
 
 
@@ -82,7 +83,6 @@ if __name__ == "__main__":
         if not os.environ[key]:
             print("Вы не полностью заполнили .env")
             sys.exit()
-
     first_comics_id = 1
     response = get("https://xkcd.com/info.0.json")
     if response.ok:
