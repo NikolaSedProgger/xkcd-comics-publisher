@@ -37,7 +37,7 @@ def upload_comic_server(image_title, url):
         files = {
             "photo": file,
         }
-    response = post(url, files=files)
+        response = post(url, files=files)
     response.raise_for_status()
     return response.json()
 
